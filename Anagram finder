@@ -6,12 +6,14 @@
 #define BUFFER_SIZE 1024
 
 // Function to compare characters for qsort.
-int compare(const void * a, const void * b) {
+int compare(const void * a, const void * b)
+{
     return *(char*)a - *(char*)b;
 }
 
 // Function to sort a string alphabetically.
-void sort_string(char* str) {
+void sort_string(char* str)
+{
     int length = strlen(str);
     qsort(str, length, sizeof(char), compare);
 }
@@ -28,34 +30,26 @@ int main(int argc, char** argv)
     }
 
 
-    char* word = malloc(sizeof(argv[1]));
+    char* word = strdup(argv[1]);
 
 
+    char original_word[256];
+    strcpy(original_word, word);
 
-    //getting the given word and putting it to lower cases
-    word = strdup(argv[1]);
-
+    //convert word to lowercase
     for(int i = 0; i<strlen(word); i++)
     {
         word[i] = tolower(word[i]);
     }
 
-    printf("Hier sind alle Anagramme des Wortes %s, die in der Liste %s vorkommen:\n\n", word, argv[2]);
+char word_but_in_lower[256];
 
-
-char original_word[256];
-
-
-    strcpy(original_word, word);
-
-sort_string(word);
+strcpy(word_but_in_lower, word);
+    sort_string(word);
 
 
 
-
-    char* dictionary = malloc(sizeof(argv[2]));
-
-    dictionary = argv[2];
+    char* dictionary = argv[2];
 
     FILE * wordcounting = fopen(dictionary, "r");
 
@@ -66,6 +60,8 @@ sort_string(word);
     }
 
 
+    printf("Hier sind alle Anagramme des Wortes %s, die in der Liste %s vorkommen:\n\n", original_word, argv[2]);
+
     char buffer[BUFFER_SIZE];
 
 
@@ -73,57 +69,58 @@ sort_string(word);
     {
 
 
- if (strcspn(buffer, "\n") == (strlen(buffer)-1))
-     {
-
-     for(int j=0; j<(strlen(buffer)-2);j++)
-     {
-
-         if(isalpha(buffer[j]) == 0)
-            break;
-
-     }
-
-
-     // Remove "\n"
-        buffer[strcspn(buffer, "\n")] = '\0';
-
-
-        for (int k=0; k<(strlen(buffer)-2); k++)
+        if (strcspn(buffer, "\n") == (strlen(buffer)-1))
         {
 
-            buffer[k]= tolower(buffer[k]);
+            for(int j=0; j<(strlen(buffer)-2); j++)
+            {
+
+                if(isalpha(buffer[j]) == 0)
+                    break;
+
+            }
+
+
+            // Remove "\n"
+            buffer[strcspn(buffer, "\n")] = '\0';
+
+
+            for (int k=0; k<(strlen(buffer)); k++)
+            {
+
+                buffer[k]= tolower(buffer[k]);
+
+            }
+
+            if (strcmp(buffer, word_but_in_lower) != 0)
+
+            {
+
+                char sorted_line[256];
+                strcpy(sorted_line, buffer);
+                sort_string(sorted_line);  // Sort the dictionary word alphabetically.
+
+                if(strcmp(word, sorted_line) == 0)
+                {
+                    printf("%s\n", buffer);
+                }
+            }
+
 
         }
 
-        if (strcmp(buffer, original_word) != 0)
-
+        else
         {
-
-        char sorted_line[256];
-        strcpy(sorted_line, buffer);
-        sort_string(sorted_line);  // Sort the dictionary word alphabetically.
-
-        if(strcmp(word, sorted_line) == 0) {
-            printf("%s\n", buffer);
-        }
-         }
-        else {
             printf("Error. One of the lines didn't fit into the buffer!\n");
             exit(EXIT_FAILURE);
 
         }
-
-     }
-
     }
 
 
-    free (dictionary);
 
     fclose (wordcounting);
 
-    free (word);
 
     return 0;
 }
