@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+int main(int argc, char* argv[])
+{
+    char *ptr;
+    double amean = 0, gmean = 1, rms = 0, sum = 0, product = 1;
+
+    if (argc < 3) {
+        printf("Error! Please make sure to use at least 2 numbers with spaces in-between them.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int i;
+    double smallest = strtod(argv[1], &ptr);
+    double biggest = strtod(argv[1], &ptr);
+
+    for (i = 1; i < argc; i++) {
+        double num = strtod(argv[i], &ptr);
+        if (strlen(ptr) > 0) {
+            printf("Error! Please only use double values.");
+            exit (EXIT_FAILURE);
+        }
+
+        sum = sum + num;
+        product = product * num;
+
+        if (num < smallest) {
+            smallest = num;
+        }
+        if (num > biggest) {
+            biggest = num;
+        }
+
+        rms = rms + (num * num);
+    }
+
+    amean = sum / (argc-1);
+    gmean = pow(product, (double) 1 / (argc - 1));
+    rms = sqrt(rms / (argc - 1));
+
+    printf("Numbers processed: %d\n",argc-1);
+    printf("Minimum: %f\n", smallest);
+    printf("Maximum: %f\n", biggest);
+    printf("Arithmetic mean: %f\n", amean);
+    printf("Geometric mean: %f\n", gmean);
+    printf("RMS: %f\n", rms);
+
+    return 0;
+}
