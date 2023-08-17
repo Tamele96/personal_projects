@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+
+int main(int argc, char * argv[])
+{
+    if (argc != 3)
+    {
+        printf("Error! Please provide exactly 2 arguments, with the first one being the name of the file you want to open and the second one being the character you want to have counted.");
+    }
+
+char character = argv[2][0];
+char * filename = argv[1];
+
+
+FILE * ptrcounting;
+
+ptrcounting = fopen (filename, "r");
+if (ptrcounting == NULL)
+{
+    printf("Error! Unable to open the file %s.\n", filename);
+    perror ("fopen");
+    exit(EXIT_FAILURE);
+}
+
+int count = 0;
+int checker;
+
+
+while ((checker = fgetc(ptrcounting)) != EOF )
+{
+   if (checker == character)
+   {
+       count++;
+   }
+
+}
+
+printf("The character %c appears %d times in the file %s", character, count, filename);
+
+
+fclose(ptrcounting);
+
+
+    return 0;
+}
