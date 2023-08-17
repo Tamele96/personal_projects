@@ -1,0 +1,129 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
+#define BUFFER_SIZE 1024
+
+// Function to compare characters for qsort.
+int compare(const void * a, const void * b) {
+    return *(char*)a - *(char*)b;
+}
+
+// Function to sort a string alphabetically.
+void sort_string(char* str) {
+    int length = strlen(str);
+    qsort(str, length, sizeof(char), compare);
+}
+
+
+int main(int argc, char** argv)
+{
+
+    //Error check
+    if (argc != 3)
+    {
+        printf("Error! Please provide 2 Arguments when starting the program - The first one being the word, the second one being the dictionary.\n");
+        exit(EXIT_FAILURE);
+    }
+
+
+    char* word = malloc(sizeof(argv[1]));
+
+
+
+    //getting the given word and putting it to lower cases
+    word = strdup(argv[1]);
+
+    for(int i = 0; i<strlen(word); i++)
+    {
+        word[i] = tolower(word[i]);
+    }
+
+    printf("Hier sind alle Anagramme des Wortes %s, die in der Liste %s vorkommen:\n\n", word, argv[2]);
+
+
+char original_word[256];
+
+
+    strcpy(original_word, word);
+
+sort_string(word);
+
+
+
+
+    char* dictionary = malloc(sizeof(argv[2]));
+
+    dictionary = argv[2];
+
+    FILE * wordcounting = fopen(dictionary, "r");
+
+    if (wordcounting == NULL)
+    {
+        printf("Error! Unable to open the file %s. Check the spelling of the file and make sure it is in the same folder.\n", dictionary);
+        exit(EXIT_FAILURE);
+    }
+
+
+    char buffer[BUFFER_SIZE];
+
+
+    while(fgets(buffer, BUFFER_SIZE, wordcounting) != NULL)
+    {
+
+
+ if (strcspn(buffer, "\n") == (strlen(buffer)-1))
+     {
+
+     for(int j=0; j<(strlen(buffer)-2);j++)
+     {
+
+         if(isalpha(buffer[j]) == 0)
+            break;
+
+     }
+
+
+     // Remove "\n"
+        buffer[strcspn(buffer, "\n")] = '\0';
+
+
+        for (int k=0; k<(strlen(buffer)-2); k++)
+        {
+
+            buffer[k]= tolower(buffer[k]);
+
+        }
+
+        if (strcmp(buffer, original_word) != 0)
+
+        {
+
+        char sorted_line[256];
+        strcpy(sorted_line, buffer);
+        sort_string(sorted_line);  // Sort the dictionary word alphabetically.
+
+        if(strcmp(word, sorted_line) == 0) {
+            printf("%s\n", buffer);
+        }
+         }
+        else {
+            printf("Error. One of the lines didn't fit into the buffer!\n");
+            exit(EXIT_FAILURE);
+
+        }
+
+     }
+
+    }
+
+
+    free (dictionary);
+
+    fclose (wordcounting);
+
+    free (word);
+
+    return 0;
+}
