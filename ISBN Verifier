@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main (int argc, char* argv[])
+{
+  int i, j;
+  for (i = 1; i < argc; i++) {
+    int length = strlen (argv[i]);
+    if (length != 13) {
+      printf ("%s: Not an ISBN!\n", argv[i]);
+      continue;
+    }
+    for (j = 0; j < length; j++) {
+      if (!isdigit (argv[i][j])) {
+        printf ("%s: Not an ISBN!\n", argv[i]);
+        break;
+      }
+    }
+    if (j == length) {
+      int sumone = 0;
+      int sumthree = 0;
+      int check_digit = argv[i][12] - '0';
+      for (j = 0; j < 11; j += 2) {
+        sumone += argv[i][j] - '0';
+        sumthree += argv[i][j + 1] - '0';
+      }
+      int isbncheck = sumone + (sumthree * 3) + check_digit;
+      if (isbncheck % 10 == 0) {
+        printf ("%s: valid!\n", argv[i]);
+      } else {
+        printf ("%s: invalid!\n", argv[i]);
+      }
+    }
+  }
+  return 0;
+}
