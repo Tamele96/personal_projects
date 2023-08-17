@@ -1,0 +1,182 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char* argv[])
+{
+    if (argc != 4)
+    {
+        printf("Error! Please make sure, you're using exactly 2 numbers with 1 operator and spaces in-between them.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    char *ptr;
+    double operant1, operant2, result;
+    operant1 = strtod(argv[1], &ptr);
+    if (strlen(ptr)!= 0)
+    {
+        printf("Error! Please make sure your first number is legitimate.");
+        exit(EXIT_FAILURE);
+    }
+    operant2 = strtod(argv[3], &ptr);
+    if (strlen(ptr)!= 0)
+    {
+        printf("Error! Please make sure your second number is legitimate.");
+        exit(EXIT_FAILURE);
+    }
+    char opt = argv [2][0];
+
+    switch (opt)
+    {
+    case '+':
+        if (argv[2][1] == '\0')
+        {
+            result = operant1 + operant2;
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case '-':
+        if (argv[2][1] == '\0')
+        {
+            result = operant1 - operant2;
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case '/':
+        if (argv[2][1] == '\0')
+        {
+            if (operant2 == 0)
+            {
+                printf("Error! Please don't divide by 0, it could create a black hole!");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                result = operant1 / operant2;
+                break;
+            }
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case 'x':
+        if (argv[2][1] == '\0')
+        {
+            result = operant1 * operant2;
+            break;
+        }
+        else if (argv[2][1] == 'x' && argv[2][2] == '\0' )
+        {
+            result = pow (operant1, operant2);
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case '%':
+        if (argv[2][1] == '\0')
+        {
+            result = fmod(operant1, operant2);
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case '_':
+        if (argv[2][1] == '/' && (argv[2][2] == '\0' ))
+        {
+            if (operant2 < 0)
+            {
+                printf("Error! I did not learn how to calculate with complex numbers yet, sorry!");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                result = pow (operant2, (1/operant1));
+                break;
+            }
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+
+
+    case 'm':
+        if (argv[2][1] == '\0')
+        {
+
+            result = (operant1 + operant2) / 2;
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case 's':
+        if (argv[2][1] == 'i' && argv[2][2] == 'n' && argv[2][3] == '\0')
+        {
+            result = operant1 * sin(operant2);
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case 'c':
+        if (argv[2][1]=='o' && argv[2][2]== 's' && argv[2][3] == '\0')
+        {
+            result = operant1 * cos(operant2);
+            break;
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+    case 't':
+        if (argv[2][1]=='a' && argv[2][2]== 'n' && argv[2][3] == '\0')
+        {
+            if (operant2 == 0)
+            {
+                printf("Error! tan(0) is undefined");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                result = operant1 * tan(operant2);
+                break;
+            }
+        }
+        else
+        {
+            printf("Error! Please make sure you are using a valid operator!");
+            exit(EXIT_FAILURE);
+        }
+
+    default:
+        printf("Error! Please make sure you are using a valid operator!");
+        exit(EXIT_FAILURE);
+    }
+    printf("%f", result);
+    return 0;
+}
