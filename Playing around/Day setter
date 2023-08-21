@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+
+enum Weekday {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+
+const char* getWeekday(enum Weekday day) {
+    switch(day) {
+        case Sunday: return "Sunday";
+        case Monday: return "Monday";
+        case Tuesday: return "Tuesday";
+        case Wednesday: return "Wednesday";
+        case Thursday: return "Thursday";
+        case Friday: return "Friday";
+        case Saturday: return "Saturday";
+        default: return "Invalid day";
+    }
+}
+
+int main() {
+    enum Weekday day;
+    char user_input[10];
+
+
+    int wrong_input = 1;
+
+    while (wrong_input == 1)
+    {
+
+    printf("What day is it today?\n");
+    scanf("%s", user_input);
+
+
+      if (strcmp(user_input, "Sunday") == 0) {
+        day = Sunday;
+        wrong_input = 0;
+    } else if (strcmp(user_input, "Monday") == 0) {
+        day = Monday;
+        wrong_input = 0;
+    } else if (strcmp(user_input, "Tuesday") == 0) {
+        day = Tuesday;
+        wrong_input = 0;
+    } else if (strcmp(user_input, "Wednesday") == 0) {
+        day = Wednesday;
+        wrong_input = 0;
+    } else if (strcmp(user_input, "Thursday") == 0) {
+        day = Thursday;
+        wrong_input = 0;
+    } else if (strcmp(user_input, "Friday") == 0) {
+        day = Friday;
+        wrong_input = 0;
+    } else if (strcmp(user_input, "Saturday") == 0) {
+        day = Saturday;
+        wrong_input = 0;
+    } else {
+        printf("Invalid input\n");
+    }
+}
+
+    const char* weekdayString = getWeekday(day);
+    printf("Day set to %s.\n", weekdayString);
+    return 0;
+}
