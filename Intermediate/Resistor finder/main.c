@@ -7,14 +7,18 @@
 
 //function to check if an argument is a double
 
-int isDouble(const char *str) {
+int isDouble(const char *str)
+{
     int hasDecimal = 0;
-    for (; *str; ++str) {
-        if (*str == '.') {
+    for (; *str; ++str)
+    {
+        if (*str == '.')
+        {
             if (hasDecimal) return 0;  // if more than one comma -> invalid double value
             hasDecimal = 1;
         }
-        else if (!isdigit(*str)) {
+        else if (!isdigit(*str))
+        {
             return 0;
         }
     }
@@ -24,13 +28,16 @@ int isDouble(const char *str) {
 
 //function to find the nearest value to the value of the resistor
 
-    double findClosestDouble(double arr[], int size, double input) {
+double findClosestDouble(double arr[], int size, double input)
+{
     double closest = arr[0];
     double minDiff = fabs(arr[0] - input);
 
-    for (int i = 1; i < size; i++) {
+    for (int i = 1; i < size; i++)
+    {
         double diff = fabs(arr[i] - input);
-        if (diff < minDiff) {
+        if (diff < minDiff)
+        {
             closest = arr[i];
             minDiff = diff;
         }
@@ -50,9 +57,11 @@ int main(int argc, char*argv[])
     }
 
     //check if the first argument is a double
-    if (!isDouble(argv[1])) {
-            printf("Error! Your resistor value is invalid.");
-        }
+    if (!isDouble(argv[1]))
+    {
+        printf("Error! Your resistor value is invalid.");
+        exit(EXIT_FAILURE);
+    }
 
     //Different values of the different E-series (Resistor standard values)
     const double E6[]  = {1.0, 1.5, 2.2, 3.3, 4.7, 6.8, 10.0};
@@ -65,7 +74,7 @@ int main(int argc, char*argv[])
     double resistor = strtod(argv[1], &ptr);
 
     //get E-series type from argument 2
-    char e_series[20];
+    char* e_series = (char*)malloc(sizeof(argv[2]));
     strcpy (e_series, argv[2]);
 
     //declare the array size
@@ -76,33 +85,67 @@ int main(int argc, char*argv[])
 
     if (strcmp(e_series, "E6") == 0)
 
-{
+    {
 
-    array_size = sizeof(double)*7;
+        array_size = 7*(sizeof(double));
 
-}
+        //Put the E-series values into the array
 
-else if (strcmp(e_series, "E12") == 0)
+        int array_nums = array_size/(sizeof(double));
 
-{
+        for (int i=0; i<array_nums; i++)
+        {
 
-    array_size = sizeof(double)*13;
+            e_series[i] = E6[i];
 
-}
+        }
 
-else if (strcmp(e_series, "E24") == 0)
+    }
 
-{
+    else if (strcmp(e_series, "E12") == 0)
 
-   array_size = (sizeof(double)*25);
+    {
 
-}
+        array_size = 13*(sizeof(double));
+
+        //Put the E-series values into the array
+
+        int array_nums = array_size/(sizeof(double));
+
+        for (int i=0; i<array_nums; i++)
+        {
+
+            e_series[i] = E12[i];
+
+        }
+
+    }
+
+    else if (strcmp(e_series, "E24") == 0)
+
+    {
+
+        array_size = 25*(sizeof(double));
+
+        //Put the E-series values into the array
+
+        int array_nums = array_size/(sizeof(double));
+
+        for (int i=0; i<array_nums; i++)
+        {
+
+            e_series[i] = E24[i];
+
+        }
+
+    }
 
 //Error check
     else
-{
-printf("Error! Invalid E-series.\n");
-}
+    {
+        printf("Error! Invalid E-series.\n");
+        exit(EXIT_FAILURE);
+    }
 
 
     //create array of the right size
@@ -110,13 +153,25 @@ printf("Error! Invalid E-series.\n");
 
 
 
+    //calculate the decade of the resistor value
+    int decade = (int)log10(resistor);
 
+    // calculate the factor of the resistor value
+    double factor = resistor/(pow(10,decade));
 
 
     //find the closest existing value to the resistor arguments' value
-    double closest = findClosestDouble(arr, array_size, resistor);
+    double closest = findClosestDouble(arr, array_size, factor);
 
 
+    //print result
+    printf ("The closest resistor value to %.1f is: %f(%d, %d)\n", resistor, closest, diff, percentage);
+
+
+//free the used memory
+    free(e_series);
+
+    free(arr);
 
     return 0;
 }
