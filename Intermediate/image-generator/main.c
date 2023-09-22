@@ -62,8 +62,12 @@ int main(int argc, char * argv[])
 
         //print help and exit
         case 'h':
-            printf("The following arguments are eligible for usage: blahblahblah\n");
-            exit(EXIT_FAILURE);
+            printf("The following arguments are eligible for usage:\n\n-W to set the width of the image\n-H to set the height of the image\n-o to determine the filename\t\
+                   \n-r to set the red value for the x coordinates of the image\n-R to set the red value for the y coordinates of the image\t\
+                   \n-g to set the green value for the x coordinates of the image\n-G to set the green value for the y coordinates of the image\t\
+                   \n-b to set the blue value for the x coordinates of the image\n-B to set the blue value for the y coordinates of the image\t\
+                   \n\nWidth, Height and the file name are required for your image, whereas the colour values are optional.\n");
+                exit(EXIT_FAILURE);
 
         //define width
         case 'W':
