@@ -3,27 +3,28 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
+#include <errno.h>
 
-int shift(int* a, int* b)
+int shift(int a, int b)
 {
 
 
-    if (*b>=0)
+    if (b>=0)
     {
 
         //left shift
-        *a << *b;
+       a = a << b;
 
     }
 
     else
     {
         //right shift
-        *a >> abs(*b);
+       a = a >> abs(b);
 
     }
 
-    return *a;
+    return a;
 
 }
 
@@ -46,13 +47,19 @@ int main(int argc, char * argv[])
 
     int opt = -1;
 
-    while (getopt(argc, argv, ":hw:H:o:r:g:b:") != -1)
+
+
+    while ((opt = getopt(argc, argv, ":hW:H:o:r:R:g:G:b:B:")) != -1)
+
 
     {
 
         char *endptr;
+
+
         switch (opt)
         {
+
         //print help and exit
         case 'h':
             printf("The following arguments are eligible for usage: blahblahblah\n");
@@ -63,9 +70,11 @@ int main(int argc, char * argv[])
 
             endptr = optarg;
 
-            width = strtod(optarg, &endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            width = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
                 printf("Error! The expected value for width is not a valid number.\n");
@@ -79,11 +88,13 @@ int main(int argc, char * argv[])
         //define height
         case 'H':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            height = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            height = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
                 printf("Error! The expected value for height is not a valid number.\n");
@@ -97,7 +108,7 @@ int main(int argc, char * argv[])
         //define filename
         case 'o':
 
-            strncpy(filename, optarg, 10);
+            strncpy(filename, optarg, FILENAME_MAX);
 
             filename_found = true;
             break;
@@ -107,89 +118,110 @@ int main(int argc, char * argv[])
         //define red value
         case 'r':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            rx = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            rx = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
-                printf("Error! The expected value for height is not a valid number.\n");
+                printf("Error! The expected value for rx is not a valid number.\n");
                 exit(EXIT_FAILURE);
             }
 
+            break;
 
         case 'R':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            ry = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            ry = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
-                printf("Error! The expected value for height is not a valid number.\n");
+                printf("Error! The expected value for ry is not a valid number.\n");
                 exit(EXIT_FAILURE);
             }
 
+            break;
 
 
         //define green value
         case 'g':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            gx = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            gx = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
-                printf("Error! The expected value for height is not a valid number.\n");
+                printf("Error! The expected value for gx is not a valid number.\n");
                 exit(EXIT_FAILURE);
             }
+
+            break;
 
         case 'G':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            gy = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            gy = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
-                printf("Error! The expected value for height is not a valid number.\n");
+                printf("Error! The expected value for gy is not a valid number.\n");
                 exit(EXIT_FAILURE);
             }
 
+
+            break;
 
 
         //define blue value
         case 'b':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            bx = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            bx = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
-                printf("Error! The expected value for height is not a valid number.\n");
+                printf("Error! The expected value for bx is not a valid number.\n");
                 exit(EXIT_FAILURE);
             }
+
+            break;
 
         case 'B':
 
-            *endptr = optarg;
+            endptr = optarg;
 
-            by = strtod(optarg, endptr);
+            errno = 0;
 
-            if(endptr != 0)
+            by = strtol(optarg, &endptr, 10);
+
+            if(errno != 0)
             {
 
-                printf("Error! The expected value for height is not a valid number.\n");
+                printf("Error! The expected value for by is not a valid number.\n");
                 exit(EXIT_FAILURE);
             }
 
+            break;
 
 
         //print a message if any unknown commands are found
@@ -204,26 +236,26 @@ int main(int argc, char * argv[])
 
         }
 
-        int x,y;
-
-        for (y=0; y<height; y++)
-        {
 
 
-            for (x=0; x<width; x++)
-            {
-                red   = (shift(x,rx) ^ shift(y,ry)) & 0xff;
-                green = (shift(x,gx) ^ shift(y,by)) & 0xff;
-                blue  = (shift(x,bx) ^ shift(y,gy)) & 0xff;
-                // write_pixel(red,green,bue);
 
-            }
-        }
-
-
+}
         //checking if there is a valid filename, width and height
         if (filename_found && width_found && height_found)
         {
+
+
+
+
+        //check if the filename ends in ".ppm"
+        int filename_length = (strlen(filename));
+
+        if(filename_length <= 4 || strncmp((filename + filename_length - 4), ".ppm", FILENAME_MAX) != 0)
+        {
+            printf("Error with the filename, please check that it ends with .ppm!\n");
+
+        }
+
 
 
             //open the file
@@ -241,12 +273,23 @@ int main(int argc, char * argv[])
             fprintf(image, "%d %d\n", width, height);
             fprintf(image, "255\n");
 
-
-            for (int i=0; i<height; i++)
+            // write pixels
+            for (int y=0; y<height; y++)
             {
 
-                fprintf(image, "%d %d %d", red, green, blue);
-                if(i != height-1)
+                for(int x=0; x<width; x++)
+
+                {
+
+                red   = (shift(x,rx) ^ shift(y,ry)) & 0xff;
+                green = (shift(x,gx) ^ shift(y,gy)) & 0xff;
+                blue  = (shift(x,bx) ^ shift(y,by)) & 0xff;
+
+                fprintf(image, "%d %d %d ", red, green, blue);
+
+                }
+
+                if(y != (height-1))
                 {
                     fprintf(image, "\n");
 
@@ -256,7 +299,14 @@ int main(int argc, char * argv[])
 
             fclose(image);
         }
-    }
+
+        else
+            {
+            printf("Error! The program needs at least a value for height, width and a filename to run.\n");
+        }
+
+
+
 
     return 0;
 }
