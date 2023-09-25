@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
     double my_longitude_rad = 0;
     double my_latitude_rad = 0;
 
+    double min_distance = 40100000;
+
     //Error checking for enough arguments
     if (argc < 5)
 
@@ -131,7 +133,7 @@ int main(int argc, char* argv[])
     double latitude_rad = 0;
     double longitude_rad = 0;
 
-    double min_distance = 40100000;
+
 
 
 
@@ -271,11 +273,11 @@ int main(int argc, char* argv[])
         double earth_radius = 6371008;
 
 
-        double a = sin((my_latitude_rad-latitude_rad)/2) * sin((my_latitude_rad-latitude_rad)) + cos(my_latitude_rad) * cos(latitude_rad) * sin((my_longitude_rad-longitude_rad)/2) * sin((my_longitude_rad-longitude_rad)/2);
+        double dlat = my_latitude_rad - latitude_rad;
+        double dlon = my_longitude_rad - longitude_rad;
 
-        double c = 2 * atan2(sqrt(a), sqrt(1-a));
+        double distance = 2 * earth_radius * asin(sqrt(pow(sin((dlat)/2), 2) + cos(my_latitude_rad) * cos(latitude_rad) * pow(sin((dlon)/2), 2)));
 
-        double distance = earth_radius * c;
 
 
         if (distance < min_distance)
