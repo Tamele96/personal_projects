@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
 FILE *file_to_read = NULL;
 
-file_to_read = fopen(argv[1], "rb");
+file_to_read = fopen(argv[1], "r");
 
 
  if (file_to_read == NULL)
@@ -21,7 +21,7 @@ file_to_read = fopen(argv[1], "rb");
 
 
 
-FILE *hexdump = fopen ("hex_dump.txt" ,"wb");
+FILE *hexdump = fopen ("hex_dump.txt" ,"w");
 
 if (hexdump == NULL)
 {
@@ -49,7 +49,7 @@ while((current_bit = fgetc(file_to_read))!= EOF)
     }
 
 
-    int bit_as_int = (int)current_bit;
+    uint8_t bit_as_int = (uint8_t)current_bit;
     fprintf (hexdump, "%3.0x ", bit_as_int);
 
 
