@@ -59,7 +59,7 @@ while((current_bit = fgetc(file_to_read))!= EOF)
 
     if (eight_liner == 8)
     {
-      fprintf(hexdump, "\t%s\n", buffer);
+      fprintf(hexdump, "\t%.8s\n", buffer);
 
       for (int i=0; i<8; i++)
       {
