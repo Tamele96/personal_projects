@@ -1,4 +1,8 @@
-Reads a file 8 bits at a time.
+Collab with Nicolai Prodinger.
+
+
+
+This program reads a file 8 bits at a time.
 
  - Displays the bit offset in hexadecimal.
   
