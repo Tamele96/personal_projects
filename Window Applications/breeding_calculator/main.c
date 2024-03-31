@@ -50,7 +50,7 @@ int main()
     female_cost = (pokemon_needed/2)*female_mon;
     male_cost = (pokemon_needed/2)*male_mon;
 
-    result = female_cost + male_cost + necessary_breeds * Pokeball + breeding_bands * Band_Price + necessary_breeds * gender_pick;
+    result = female_cost + male_cost + necessary_breeds * Pokeball + breeding_bands * Band_Price + (necessary_breeds * gender_pick)/2;
 
 
     //----------------------------------------
