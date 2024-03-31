@@ -1,1 +1,1 @@
-This folder contains projects that are either made with GTK or are planned to have a window application through GTK added.
+This folder contains any personal projects related to window applications.
