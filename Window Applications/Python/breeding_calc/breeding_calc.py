@@ -1,5 +1,16 @@
 import tkinter as tk
 
+from tkinter import ttk
+from ttkthemes import ThemedTk
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+#window = tk.Tk()
+window = ThemedTk(theme="adapta")
+window.title("PokeMMO Breeding Calculator")
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+result_text = tk.StringVar()
+
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 def submit_callback():
@@ -47,85 +58,83 @@ def submit_callback():
     
 #--------------------------------------------------------------------------------------------------------------------------------------
     
-   #              female       +     male        +              balls           +       bands    +                gender breeding cost   
+   #            female         +     male        +              balls           +       bands    +          gender breeding cost   
     result = female_cost_total + male_cost_total + necessary_breeds * ball_cost + breeding_bands + (necessary_breeds/2) * gender_ratio
 
-    print(int(result))
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-window = tk.Tk()
+    result_text.set(str(int(result)))
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 # Female entry field
-label_female = tk.Label(text="Cost of female")
-label_female.pack()
+label_female = ttk.Label(window, text="Cost of female")
+label_female.grid(row=1, column=0)
 
-entry_female = tk.Entry()
-entry_female.pack()
+entry_female = ttk.Entry(window)
+entry_female.grid(row=1, column=1)
 entry_female.insert(0, "0")
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 # Male entry field
-label_male = tk.Label(text="Cost of male")
-label_male.pack()
+label_male = ttk.Label(window, text="Cost of male")
+label_male.grid(row=2, column=0)
 
-entry_male = tk.Entry()
-entry_male.pack()
+entry_male = ttk.Entry(window)
+entry_male.grid(row=2, column=1)
 entry_male.insert(0, "0")
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 # IV entry field
-label_iv = tk.Label(text="IVs")
-label_iv.pack()
+label_iv = ttk.Label(window, text="IVs")
+label_iv.grid(row=3, column=0)
 
-entry_iv = tk.Entry()
-entry_iv.pack()
+entry_iv = ttk.Entry(window)
+entry_iv.grid(row=3, column=1)
 entry_iv.insert(0, "5")
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
+# Ball cost entry field
+label_ball = ttk.Label(window, text="Ball cost")
+label_ball.grid(row=4, column=0)
+
+entry_ball = ttk.Entry(window)
+entry_ball.grid(row=4, column=1)
+entry_ball.insert(0, "200")
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+
 # Gender ratio
-label_options = tk.Label(text="Female ratio")
-label_options.pack()
+label_options = ttk.Label(window, text="Female / Male ratio")
+label_options.grid(row=0, column=3)
+
+#--------------------------------------------------------------------------------------------------------------------------------------
 
 # Variable to store the selected option
 selected_option = tk.IntVar(value="2")
 
 # Creating Radiobuttons
-tk.Radiobutton(window, text="75%", variable=selected_option, value="1").pack()
-tk.Radiobutton(window, text="50%", variable=selected_option, value="2").pack()
-tk.Radiobutton(window, text="25%", variable=selected_option, value="3").pack()
-tk.Radiobutton(window, text="12.5%", variable=selected_option, value="4").pack()
+ttk.Radiobutton(window, text="75% / 25%", variable=selected_option, value="1").grid(row=1, column=3)
+ttk.Radiobutton(window, text="50% / 50%", variable=selected_option, value="2").grid(row=2, column=3)
+ttk.Radiobutton(window, text="25% / 75%", variable=selected_option, value="3").grid(row=3, column=3)
+ttk.Radiobutton(window, text="12.5% / 87.5%", variable=selected_option, value="4").grid(row=4, column=3)
 
-
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-# Ball cost entry field
-label_ball = tk.Label(text="Ball cost")
-label_ball.pack()
-
-entry_ball = tk.Entry()
-entry_ball.pack()
-entry_ball.insert(0, "200")
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 # Submit button
-submit_button = tk.Button(window, text="Submit", command=submit_callback)
-submit_button.pack()
+submit_button = ttk.Button(window, text="Submit", command=submit_callback)
+submit_button.grid(row=8, column=1, columnspan=2)
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 # Result
-result_label = tk.Label(text="Result: ", font=("Helvetica", 12))
-result_label.pack()
+result_title_label = ttk.Label(window, text="Result:", font=("Helvetica", 12))
+result_title_label.grid(row=9, column=0)
 
-
+result_label = ttk.Label(window, textvariable=result_text, font=("Helvetica", 12))
+result_label.grid(row=9, column=1)
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -133,8 +142,4 @@ window.mainloop()
 
 
 
-
-
-      #  entry1.insert(0, "Python")
-
-      #  entry1.delete(0,tk.END)
+#  entry1.delete(0,tk.END)
