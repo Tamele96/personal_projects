@@ -1,24 +1,32 @@
 import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedTk
+from PIL import Image, ImageTk
 
+#--------------------------------------------------------------------------------------------------------------
+
+# Window settings
 window = ThemedTk(theme="adapta")
 window.title("PokeMMO Breeding Calculator")
+
 window.iconbitmap('C:/Users/danie/AppData/Local/Programs/Microsoft VS Code/Projects/breeding_calc/pokemon.ico')
 
+currency_image = Image.open("C:/Users/danie/AppData/Local/Programs/Microsoft VS Code/Projects/breeding_calc/pokeyen.png")
 
+#--------------------------------------------------------------------------------------------------------------
+
+# Adjusting the Pokeyen image
+currency_image = currency_image.resize((15, 15))
+currency_image_tk = ImageTk.PhotoImage(currency_image)
+
+#--------------------------------------------------------------------------------------------------------------
+
+# Defining result output
 result_text = tk.StringVar()
 
+#--------------------------------------------------------------------------------------------------------------
 
-# New frame for error message
-frame_error = ttk.Frame(window)
-frame_error.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
-
-# Error message label
-error_label = ttk.Label(frame_error, text="", foreground="red")
-error_label.pack()
-error_label.grid(row=0, column=0, padx=5, pady=5)
-
+# Defining the submit button event
 def submit_callback():
 
     # Clear error message
@@ -46,6 +54,7 @@ def submit_callback():
     else:
         female_cost = int(female_cost_str)
     
+    #--------------------------------------------------------------------------------------------------------------
     
     # male
     male_cost_str = entry_male.get()
@@ -68,6 +77,7 @@ def submit_callback():
     else:
         male_cost = int(male_cost_str)
     
+    #--------------------------------------------------------------------------------------------------------------
 
     # ivs
     ivs_str = entry_iv.get()
@@ -90,6 +100,8 @@ def submit_callback():
         error_label.pack()
         return
 
+#--------------------------------------------------------------------------------------------------------------
+    
    # ball cost
     ball_cost_str = entry_ball.get()
     if ball_cost_str.startswith("-"):
@@ -111,6 +123,8 @@ def submit_callback():
     else:
         ball_cost = int(ball_cost_str)
 
+#--------------------------------------------------------------------------------------------------------------
+        
     # Radio buttons
     gender_ratio = 0
 
@@ -123,6 +137,9 @@ def submit_callback():
     elif selected_option.get() == 4:
         gender_ratio = 13000
 
+#--------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------
+                
     # Initialization
     necessary_breeds = 0
     breeding_bands = 10000
@@ -142,55 +159,87 @@ def submit_callback():
     result = female_cost_total + male_cost_total + necessary_breeds * ball_cost + breeding_bands + (
                 necessary_breeds / 2) * gender_ratio
 
-    result_text.set(str(int(result)))
+    result_text.set("{:,}".format(int(result)))
 
-# Frames
+#--------------------------------------------------------------------------------------------------------------
+    
+# Frames:
+    
+# Frame left    
 frame_left = ttk.Frame(window)
 frame_left.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
+# Frame right
 frame_right = ttk.Frame(window)
 frame_right.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-frame_bottom = ttk.Frame(window)
-frame_bottom.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+# New frame for error message
+# Create a style
+style = ttk.Style()
+style.configure('Gray.TFrame', background='LightSkyBlue')
 
-# Label at the start of left frame
+frame_error = ttk.Frame(window, style='Gray.TFrame')
+frame_error.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+
+# Frame bottom
+frame_bottom = ttk.Frame(window)
+frame_bottom.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+
+#--------------------------------------------------------------------------------------------------------------
+
+# Labels in left frame
+
+# Input label
 label_input = ttk.Label(frame_left, text="Enter your data:")
 label_input.grid(row=0, column=0, columnspan=2, padx=5, pady=(10, 5))
 
-# Female entry field
+#--------------------------------------------------------------------------------------------------------------
+
+# Female label
 label_female = ttk.Label(frame_left, text="Cost of female:")
 label_female.grid(row=1, column=0, padx=(10, 5), pady=5, sticky="e")
 
+# Female entry field
 entry_female = ttk.Entry(frame_left)
 entry_female.grid(row=1, column=1, padx=(0, 10), pady=5)
 entry_female.insert(0, "0")
 
-# Male entry field
+#--------------------------------------------------------------------------------------------------------------
+
+# Male label
 label_male = ttk.Label(frame_left, text="Cost of male:")
 label_male.grid(row=2, column=0, padx=(10, 5), pady=5, sticky="e")
 
+# Male entry field
 entry_male = ttk.Entry(frame_left)
 entry_male.grid(row=2, column=1, padx=(0, 10), pady=5)
 entry_male.insert(0, "0")
 
-# IV entry field
+#--------------------------------------------------------------------------------------------------------------
+
+# IV label
 label_iv = ttk.Label(frame_left, text="IVs:")
 label_iv.grid(row=3, column=0, padx=(10, 5), pady=5, sticky="e")
 
+# IV entry field
 entry_iv = ttk.Entry(frame_left)
 entry_iv.grid(row=3, column=1, padx=(0, 10), pady=5)
 entry_iv.insert(0, "5")
 
-# Ball cost entry field
+#--------------------------------------------------------------------------------------------------------------
+
+# Ball cost label
 label_ball = ttk.Label(frame_left, text="Ball cost:")
 label_ball.grid(row=4, column=0, padx=(10, 5), pady=5, sticky="e")
 
+# Ball cost entry field
 entry_ball = ttk.Entry(frame_left)
 entry_ball.grid(row=4, column=1, padx=(0, 10), pady=5)
 entry_ball.insert(0, "200")
 
-# Gender ratio
+#--------------------------------------------------------------------------------------------------------------
+
+# Gender ratio label
 label_options = ttk.Label(frame_right, text="Female / Male ratio")
 label_options.pack(side="top", padx=5, pady=5)
 
@@ -202,15 +251,30 @@ ttk.Radiobutton(frame_right, text="50% / 50%", variable=selected_option, value="
 ttk.Radiobutton(frame_right, text="25% / 75%", variable=selected_option, value="3").pack(anchor="w", padx=5, pady=2)
 ttk.Radiobutton(frame_right, text="12.5% / 87.5%", variable=selected_option, value="4").pack(anchor="w", padx=5, pady=2)
 
-# Submit button horizontally centered
+#--------------------------------------------------------------------------------------------------------------
+
+# Submit button
 submit_button = ttk.Button(frame_bottom, text="Submit", command=submit_callback)
 submit_button.pack(pady=10)
 
-# Result
+#--------------------------------------------------------------------------------------------------------------
+
+# Result labels
 result_title_label = ttk.Label(frame_bottom, text="Total cost to breed:", font=("Helvetica", 12))
 result_title_label.pack(side="left", padx=5, pady=5)
 
 result_label = ttk.Label(frame_bottom, textvariable=result_text, font=("Helvetica", 12))
 result_label.pack(side="left", padx=5, pady=5)
+result_currency_label = ttk.Label(frame_bottom, image=currency_image_tk)
+result_currency_label.pack(side="left", padx=5, pady=5)
+
+#--------------------------------------------------------------------------------------------------------------
+
+# Error message label
+error_label = ttk.Label(frame_error, text="", foreground="red", background="LightSkyBlue")
+error_label.pack()
+error_label.grid(row=0, column=0, padx=5, pady=5)
+
+#--------------------------------------------------------------------------------------------------------------
 
 window.mainloop()
