@@ -34,5 +34,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['C:\\Users\\danie\\python_projects\\breeding_calculator\\meowth.ico'],
+    icon=['meowth.ico'],
 )
