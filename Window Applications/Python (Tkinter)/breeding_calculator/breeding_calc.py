@@ -6,7 +6,6 @@ from PIL import Image, ImageTk
 
 root = ttk.Window(themename="darkly")
 root.title("PokeMMO Breeding Calculator")
-# In case you build the program yourself, make sure to either delete the line below, or modify it to your own path and icon name
 root.resizable(False, False)
 
 # Defining result output
