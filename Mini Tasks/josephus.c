@@ -1,3 +1,13 @@
+// The code below solves the famous Josephus problem using a circular linked list:
+//
+// There are N people standing in a circle like 1->2->3...->N->1 and there is a knife.
+// Whoever has the knife kills the person next to them and hands over the knife, i.e., if 2 has the knife in 1->2->3->1 then 2 kills 3 and hands over the knife to 1.
+// This process continues until there is only one person left, i.e., there is no one left to kill.
+// This last person is deemed as the winner. Initially the knife is with person 1.
+// For a given N, you need to determine the winner.
+
+// Solved by Daniel Tamele
+
 #include <stdio.h>
 #include <stdlib.h>
 
